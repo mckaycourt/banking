@@ -4,24 +4,58 @@ const router = express.Router();
 const Transaction = require('../database/tables/transaction');
 
 router.get('/', async function (req, res, next) {
-    const transaction = new Transaction();
-    const wendys = await transaction.getAllByDescription('WENDYS #6076 PROVO UT');
-    const all = await transaction.getAll();
-    const grouped = await transaction.getGroupedDescription();
-    const totalMoneySpent = await transaction.getTotalMoneySpent();
-    // await transaction.formatDates();
-    const lastMonth = await transaction.getByMonth(3);
-    let data = [];
 
+});
+
+router.get('/pastMonth', async function (req, res, next) {
+    const transaction = new Transaction();
+    const lastMonth = await transaction.getMonth(1);
+    let data = [];
     for (let row of lastMonth) {
         data.push({
             name: row.Description,
-            y: row['Sum(Debit)'],
+            y: row[transaction.debitSum],
             sliced: true,
         })
     }
+    res.render('index', {title: 'Express', information: JSON.stringify([data]), charts: [true]});
 
-    res.render('index', {title: 'Express', information: JSON.stringify(data)});
 });
+
+router.get('/lastThreeMonths', async function (req, res, next) {
+    const transaction = new Transaction();
+    let bigData = [];
+    for(let i = 0; i < 3; i++){
+        const lastMonth = await transaction.getMonth(i);
+        let data = [];
+        for (let row of lastMonth) {
+            data.push({
+                name: row.Description,
+                y: row[transaction.debitSum],
+                sliced: true,
+            })
+        }
+        bigData.push(data);
+    }
+    res.render('index', {title: 'Express', information: JSON.stringify(bigData), charts: bigData});
+});
+
+router.get('/allTransactions', async function (req, res, next) {
+    const transaction = new Transaction();
+    const all = await transaction.getAll();
+});
+
+router.get('/transactionsByGroup', async function (req, res, next) {
+    const transaction = new Transaction();
+    const grouped = await transaction.getGroupedDescription();
+
+});
+
+router.get('/getAllOfDescription', async function (req, res, next) {
+    const transaction = new Transaction();
+    const wendys = await transaction.getAllByDescription('WENDYS #6076 PROVO UT');
+
+});
+
 
 module.exports = router;

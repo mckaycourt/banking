@@ -6,6 +6,7 @@ class Transaction {
         this.date = 'Date';
         this.description = 'Description';
         this.debit = 'Debit';
+        this.debitSum = `Sum(${this.debit})`;
     }
 
     async getAll() {
@@ -27,7 +28,7 @@ class Transaction {
 
     async getGroupedDescription() {
         let database = new Database();
-        const query = `SELECT ${this.description}, Sum(${this.debit}) FROM ${this.tableName} GROUP BY ${this.description} ORDER BY Sum(${this.debit}) DESC;`;
+        const query = `SELECT ${this.description}, ${this.debitSum} FROM ${this.tableName} GROUP BY ${this.description} ORDER BY ${this.debitSum} DESC;`;
         let results = await database.query(query);
         database.close();
         return results;
@@ -35,7 +36,7 @@ class Transaction {
 
     async getTotalMoneySpent() {
         let database = new Database();
-        const query = `SELECT Sum(${this.debit}) FROM ${this.tableName};`;
+        const query = `SELECT ${this.debitSum} FROM ${this.tableName};`;
         let results = await database.query(query);
         database.close();
         return results[0]['Sum(Debit)'];
@@ -79,8 +80,38 @@ class Transaction {
             month = "0" + month;
         let min = `${date.getFullYear()}-${month}-01`;
 
-        const query = `SELECT ${this.description}, Sum(${this.debit}) FROM ${this.tableName} WHERE ${this.date} <= '${max}' AND ${this.date} >= '${min}' GROUP BY ${this.description} ORDER BY Sum(${this.debit}) DESC;`;
+        const query = `SELECT ${this.description}, ${this.debitSum} FROM ${this.tableName} WHERE ${this.date} <= '${max}' AND ${this.date} >= '${min}' GROUP BY ${this.description} ORDER BY ${this.debitSum} DESC;`;
         console.log(query);
+        let results = await database.query(query);
+        database.close();
+        return results;
+    }
+
+    async getMonth(backTrack = 0) {
+        console.log(backTrack);
+        let database = new Database();
+        let date = new Date();
+        let max = '';
+        date.setMonth(date.getMonth() - backTrack +1);
+        let maxMonth = date.getMonth();
+        if(maxMonth.toString().length === 1)
+            maxMonth = '0' + maxMonth;
+        if(maxMonth === '00'){
+            maxMonth = '12';
+            max = `${date.getFullYear() - 1}-${maxMonth}-31`;
+        }
+        else
+            max = `${date.getFullYear()}-${maxMonth}-31`;
+        date.setMonth(date.getMonth() - 1);
+        let month = date.getMonth() + 1;
+        if (month.toString().length === 1)
+            month = '0' + month;
+        let min = `${date.getFullYear()}-${month}-01`;
+
+        console.log(`From ${min} to ${max}`);
+
+        const query = `SELECT ${this.description}, ${this.debitSum} FROM ${this.tableName} WHERE ${this.date} <= '${max}' AND ${this.date} >= '${min}' GROUP BY ${this.description} ORDER BY ${this.debitSum} DESC;`;
+        // console.log(query);
         let results = await database.query(query);
         database.close();
         return results;
