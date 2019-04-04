@@ -1,5 +1,47 @@
 extends layout
 
 block content
+  script(src="https://code.jquery.com/jquery-3.1.1.min.js")
+  script(src="https://code.highcharts.com/highcharts.js")
+  script(src="https://code.highcharts.com/modules/exporting.js")
+  script(src="https://code.highcharts.com/modules/export-data.js")
   h1= title
-  p Welcome to #{title}
+  #information(style='display: none')= information
+  div(id="container" style="min-width: 310px; height: 800px; max-width: 100%; margin: 0 auto")
+
+
+
+  script.
+      // Build the chart
+      let information = document.querySelector('#information').innerHTML;
+      information = JSON.parse(information);
+      Highcharts.chart('container', {
+          chart: {
+              plotBackgroundColor: null,
+              plotBorderWidth: null,
+              plotShadow: false,
+              type: 'pie'
+          },
+          title: {
+              text: 'Browser market shares in January, 2018'
+          },
+          tooltip: {
+              pointFormat: '{series.name}: <b>${point.y}</b>'
+          },
+          plotOptions: {
+              pie: {
+                  allowPointSelect: true,
+                  cursor: 'pointer',
+                  dataLabels: {
+                      enabled: false
+                  },
+                  showInLegend: true
+              }
+          },
+          series: [{
+              name: 'Brands',
+              colorByPoint: true,
+              data: information
+          }]
+      });
+
