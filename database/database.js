@@ -3,7 +3,7 @@ let mysql = require('mysql');
 class Database {
     constructor() {
         this.databaseName = 'banking';
-        this.userName = 'mmcourt';
+        this.userName = 'root';
         this.password = 'Mlhlt2200!';
         this.host = '127.0.0.1';
 

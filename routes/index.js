@@ -4,7 +4,7 @@ const router = express.Router();
 const Transaction = require('../database/tables/transaction');
 
 router.get('/', async function (req, res, next) {
-
+    res.redirect('/pastMonth');
 });
 
 router.get('/pastMonth', async function (req, res, next) {
@@ -19,10 +19,9 @@ router.get('/pastMonth', async function (req, res, next) {
         })
     }
     res.render('index', {title: 'Express', information: JSON.stringify([data]), charts: [true]});
-
 });
 
-router.get('/lastThreeMonths', async function (req, res, next) {
+router.get('/pastThreeMonths', async function (req, res, next) {
     const transaction = new Transaction();
     let bigData = [];
     for(let i = 0; i < 3; i++){
@@ -43,6 +42,7 @@ router.get('/lastThreeMonths', async function (req, res, next) {
 router.get('/allTransactions', async function (req, res, next) {
     const transaction = new Transaction();
     const all = await transaction.getAll();
+    res.render('transactions', {title: 'All Transactions', data: JSON.stringify(all)})
 });
 
 router.get('/transactionsByGroup', async function (req, res, next) {

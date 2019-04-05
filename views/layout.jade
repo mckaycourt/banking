@@ -1,7 +1,21 @@
 doctype html
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='/stylesheets/navbar.css')
+    body
+        .header
+            img(src='/images/homepage-models.jpg')
+        .navbar
+            ul
+                li
+                    a(class="active" href="#home") Home
+                li
+                    a(href="/pastMonth") Past Month
+                li
+                    a(href="/pastThreeMonths") Past Three Months
+                li
+                    a(href="/allTransactions") All Transactions
+        block content
+
