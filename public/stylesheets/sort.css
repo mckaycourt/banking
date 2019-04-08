@@ -1,0 +1,32 @@
+.items{
+    width: 25%;
+    margin-left: 15%;
+}
+
+.item{
+    padding: 25px;
+    border: 1px black solid;
+    margin-top: 10px;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.categories{
+    float: right;
+    margin-right: 15%;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}
+
+.category{
+    padding: 25px;
+    border: 1px black solid;
+    margin-top: 10px;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.over {
+    border: 2px dashed #000;
+}

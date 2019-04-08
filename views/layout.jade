@@ -7,15 +7,19 @@ html
     body
         .header
             img(src='/images/homepage-models.jpg')
-        .navbar
-            ul
-                li
+        .navbarFOReal
+            .navbarOptions
+                .navbarOption
                     a(class="active" href="#home") Home
-                li
+                .navbarOption
                     a(href="/pastMonth") Past Month
-                li
+                .navbarOption
                     a(href="/pastThreeMonths") Past Three Months
-                li
+                .navbarOption
                     a(href="/allTransactions") All Transactions
+                .navbarOption
+                    a(href="/sortTransactions") Sort Transactions
+                .navbarOption
+                    a(href="/upload") Upload
         block content
 

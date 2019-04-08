@@ -1,4 +1,4 @@
-ul {
+.navbarOptions {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -9,11 +9,11 @@ ul {
     top: 0;
 }
 
-li {
+.navbarOption {
     float: left;
 }
 
-li a {
+.navbarOption a {
     display: block;
     color: white;
     text-align: center;
@@ -21,7 +21,7 @@ li a {
     text-decoration: none;
 }
 
-li a:hover {
+.navbarOption a:hover {
     background-color: #111;
 }
 

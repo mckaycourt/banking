@@ -3,17 +3,24 @@ extends layout
 block content
     script(src='https://code.jquery.com/jquery-3.3.1.js')
     script(src='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
-    #information= data
-    table#example
+    //link(rel='stylesheet', href='https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css')
+    link(rel='stylesheet', href='https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css')
+    #information(style='display: none;')= data
+    table#example.table.table-striped.table-bordered(style='width: 100%;')
 
     script.
         let data = JSON.parse(document.querySelector('#information').innerHTML)
         $('#example').DataTable({
             data: data,
+            paging: false,
+            searching: false,
             columns: [
                 {data: 'Date', title: 'Date'},
                 {data: 'Description', title: 'Description'},
-                {data: 'Debit', title: 'Debit'},
+                {data: 'Debit', title: 'Debit', "render": function (data, type, full, meta) {
+                        return '$'+data.toFixed(2);
+                    }},
                 {data: 'Credit', title: 'Credit'}
             ]
         });

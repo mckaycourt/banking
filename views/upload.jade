@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1= title
+    p Welcome to #{title}
+
+    form(action='/upload' method='post' id='form')
+        input(type='file' name='file' id='file')
+        input(type='text' name='json' id='json')
+        button(type='button' onclick='handleFiles();') Submit
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+    script(src='/scripts/upload.js')
